@@ -31,7 +31,8 @@ pipeline {
                 sh 'docker push sloanemetayer333/tp3-repo:$BUILD_NUMBER'
                 sh 'docker push sloanemetayer333/tp3-repo:latest' 
 
-                echo "End build and push"
+
+                
             }
         }
         stage('Deploy') {
