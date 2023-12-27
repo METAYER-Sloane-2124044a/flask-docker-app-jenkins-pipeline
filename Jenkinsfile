@@ -3,6 +3,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = "sloanemetayer333/tp3-repo"
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub_credentials')
+        
         CONTAINER_NAME = "flask-container"
         STUB_VALUE = "200"
     }
