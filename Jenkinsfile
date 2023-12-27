@@ -16,6 +16,11 @@ pipeline {
                 sh 'cat config.py'
             }
         }
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
         stage('Build') {
             steps {
                 //  Building new image
@@ -27,11 +32,6 @@ pipeline {
                 sh 'docker push sloanemetayer333/tp3-repo:latest'
                 
                 echo "Image built and pushed to repository"
-            }
-        }
-        stage('Login') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
         stage('Deploy') {
