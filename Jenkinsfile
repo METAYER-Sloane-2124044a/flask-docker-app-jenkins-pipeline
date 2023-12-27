@@ -14,6 +14,8 @@ pipeline {
                 echo "STUB_VALUE = ${STUB_VALUE}"
                 sh "sed -i 's/<STUB_VALUE>/$STUB_VALUE/g' config.py"
                 sh 'cat config.py'
+
+                echo "End Stubs-Replacement"
             }
         }
         stage('Login') {
