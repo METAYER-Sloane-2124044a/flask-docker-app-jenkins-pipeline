@@ -14,14 +14,11 @@ pipeline {
                 echo "STUB_VALUE = ${STUB_VALUE}"
                 sh "sed -i 's/<STUB_VALUE>/$STUB_VALUE/g' config.py"
                 sh 'cat config.py'
-
-                echo "End Stubs-Replacement"
             }
         }
         stage('Login') {
             steps {
-                sh 'echo $DOCKER_HUB_CREDENTIALS_PSW |  docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
-                echo "End Login"
+                sh "echo $DOCKER_HUB_CREDENTIALS_PSW |  docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin"
             }
         }
         stage('Build') {
@@ -30,14 +27,10 @@ pipeline {
                     //  Building new image
                     sh 'docker image build -t $DOCKER_HUB_REPO:latest .'
                     sh 'docker image tag $DOCKER_HUB_REPO:latest $DOCKER_HUB_REPO:$BUILD_NUMBER'
-
-                    echo "End image built"
                     
                     //  Pushing Image to Repository
                     sh 'docker push sloanemetayer333/tp3-repo:$BUILD_NUMBER'
                     sh 'docker push sloanemetayer333/tp3-repo:latest'
-                    
-                    echo "Image built and pushed to repository"
                 }    
             }
         }
