@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         DOCKER_HUB_REPO = "sloanemetayer333/tp3-repo"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_credentials')
+        
         CONTAINER_NAME = "flask-container"
         STUB_VALUE = "200"
     }
@@ -25,6 +27,11 @@ pipeline {
                 sh 'docker push sloanemetayer333/tp3-repo:latest'
                 
                 echo "Image built and pushed to repository"
+            }
+        }
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
         stage('Deploy') {
