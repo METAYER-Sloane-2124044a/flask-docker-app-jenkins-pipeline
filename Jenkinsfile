@@ -18,20 +18,18 @@ pipeline {
         }
         stage('Login') {
             steps {
-                sh "echo ${DOCKER_HUB_CREDENTIALS_PSW} |  docker login -u ${DOCKER_HUB_CREDENTIALS_USR} --password-stdin"
+                sh 'echo $DOCKER_HUB_CREDENTIALS_PSW |  docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
             }
         }
         stage('Build') {
             steps {
-                withDockerRegistry([ credentialsId: "dockerhub_credentials", url: "" ]) {
-                    //  Building new image
-                    sh 'docker image build -t $DOCKER_HUB_REPO:latest .'
-                    sh 'docker image tag $DOCKER_HUB_REPO:latest $DOCKER_HUB_REPO:$BUILD_NUMBER'
-                    
-                    //  Pushing Image to Repository
-                    sh 'docker push sloanemetayer333/tp3-repo:$BUILD_NUMBER'
-                    sh 'docker push sloanemetayer333/tp3-repo:latest'
-                }    
+                //  Building new image
+                sh 'docker image build -t $DOCKER_HUB_REPO:latest .'
+                sh 'docker image tag $DOCKER_HUB_REPO:latest $DOCKER_HUB_REPO:$BUILD_NUMBER'
+                
+                //  Pushing Image to Repository
+                sh 'docker push sloanemetayer333/tp3-repo:$BUILD_NUMBER'
+                sh 'docker push sloanemetayer333/tp3-repo:latest' 
             }
         }
         stage('Deploy') {
